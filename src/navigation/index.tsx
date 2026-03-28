@@ -1,19 +1,14 @@
 import { createStaticNavigation, StaticParamList } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import Overview from '../screens/overview';
-import Details from '../screens/details';
-import { BackButton } from '../components/BackButton';
+import { Signin } from '@/screens/Signin';
 
 const Stack = createStackNavigator({
   screens: {
-    Overview: {
-      screen: Overview,
-    },
-    Details: {
-      screen: Details,
-      options: ({ navigation }) => ({
-        headerLeft: () => <BackButton onPress={navigation.goBack} />,
-      }),
+    Signin: {
+      options: {
+        headerShown: false,
+      },
+      screen: Signin,
     },
   },
 });
