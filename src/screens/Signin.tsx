@@ -2,6 +2,11 @@ import { Image } from 'expo-image';
 import { Text, View, TextInput, TouchableOpacity } from 'react-native';
 import { GoogleSignin, User, isSuccessResponse } from '@react-native-google-signin/google-signin';
 import { useState } from 'react';
+import { Controller, useForm } from 'react-hook-form';
+import * as Zod from 'zod';
+import { loginSchema } from '@/schemas/loginSchema';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { usePostLogin } from '@/hooks/auth/usePostLogin';
 
 GoogleSignin.configure({});
 
@@ -23,6 +28,21 @@ export function Signin() {
       console.log(error);
     }
   }
+
+  const {
+    control,
+    resetField,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<Zod.infer<typeof loginSchema>>({
+    resolver: zodResolver(loginSchema),
+    defaultValues: {
+      login: '',
+      password: '',
+    },
+  });
+
+  const login = usePostLogin();
 
   return (
     <View className="flex-1 bg-[#0a0a0f]">
