@@ -7,8 +7,10 @@ import * as Zod from 'zod';
 import { loginSchema } from '@/schemas/loginSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { usePostLogin } from '@/hooks/auth/usePostLogin';
+import { useNavigation } from '@react-navigation/native';
+import AntDesign from '@expo/vector-icons/AntDesign';
 
-GoogleSignin.configure({});
+GoogleSignin.configure();
 
 export function Signin() {
   const [auth, setAuth] = useState<User | null>(null);
@@ -17,12 +19,15 @@ export function Signin() {
   const [showPassword, setShowPassword] = useState(false);
   const localImageSource = require('../../assets/file.jpg');
 
+  const navigation = useNavigation();
+
   async function handleGoogleSignin() {
     try {
       await GoogleSignin.hasPlayServices();
       const result = await GoogleSignin.signIn();
       if (isSuccessResponse(result)) {
         setAuth(result.data);
+        navigation.navigate('Homepage');
       }
     } catch (error) {
       console.log(error);
@@ -42,7 +47,7 @@ export function Signin() {
     },
   });
 
-  const login = usePostLogin();
+  //const login = usePostLogin();
 
   return (
     <View className="flex-1 bg-[#0a0a0f]">
@@ -56,7 +61,10 @@ export function Signin() {
           className="mb-4 h-14 w-full items-center justify-center rounded-2xl bg-[#f0ece4]"
           onPress={handleGoogleSignin}
           activeOpacity={0.85}>
-          <Text className="text-base font-semibold text-[#1a1a2e]">Entrar com o Google</Text>
+          <View className="flex-row gap-x-2">
+            <Text className="text-base font-semibold text-[#1a1a2e]">Entrar com o Google</Text>
+            <AntDesign name="google" size={24} color="black" />
+          </View>
         </TouchableOpacity>
         <View className="mb-4 w-full flex-row items-center gap-3">
           <View className="h-px flex-1 bg-[#2a2a3a]" />
@@ -94,7 +102,11 @@ export function Signin() {
         <View className="flex-row items-center">
           <Text className="text-sm text-[#444458]">Não tem conta? </Text>
           <TouchableOpacity>
-            <Text className="text-sm font-medium text-red-800">Criar conta</Text>
+            <Text
+              className="text-sm font-medium text-red-800"
+              onPress={() => navigation.navigate('Register')}>
+              Criar conta
+            </Text>
           </TouchableOpacity>
         </View>
       </View>
