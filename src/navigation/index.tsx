@@ -1,6 +1,8 @@
 import { createStaticNavigation, StaticParamList } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Signin } from '@/screens/Signin';
+import { Homepage } from '@/screens/Homepage';
+import { Register } from '@/screens/Register';
 
 const Stack = createStackNavigator({
   screens: {
@@ -9,6 +11,18 @@ const Stack = createStackNavigator({
         headerShown: false,
       },
       screen: Signin,
+    },
+    Homepage: {
+      options: {
+        headerShown: true,
+      },
+      screen: Homepage,
+    },
+    Register: {
+      options: {
+        headerShown: true,
+      },
+      screen: Register,
     },
   },
 });
